@@ -306,7 +306,7 @@ links:
 <p>基于WordPress主题<a href="https://github.com/mashirozx/Sakura/" target="_blank" rel="noopener">Sakura</a>修改成Hexo的主题。</p>
 <p><a href="https://sakura.hojun.cn" target="_blank" rel="noopener">demo预览</a></p>
 <p>正在开发中……</p>
-<p><img src="https://wx3.sinaimg.cn/large/006bYVyvly1g069tuf42oj312w0m8ndq.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Gimas520/Images/banner1.webp" alt=""><br><img src="https://s1.ax1x.com/2020/04/10/GTaI0O.jpg" alt=""></p>
 <h2 id="交流群"><a href="#交流群" class="headerlink" title="交流群"></a>交流群</h2><p>若你是使用者，加群QQ: 801511924</p>
 <p>若你是创作者，加群QQ: 194472590</p>
 <h2 id="主题特性"><a href="#主题特性" class="headerlink" title="主题特性"></a>主题特性</h2><ul>
@@ -380,7 +380,7 @@ lazyloadImg: https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progre
 
 # 站点菜单配置 【选】
 menus:
-  首页: { path: /, fa: fa-fort-awesome faa-shake }
+  首页: { path: /, fa: fa-fort-awesome faa-shake } 
   归档: { path: /archives, fa: fa-archive faa-shake, submenus: { 
     技术: {path: /categories/技术/, fa: fa-code }, 
     生活: {path: /categories/生活/, fa: fa-file-text-o }, 
@@ -403,8 +403,10 @@ menus:
     Lab: {path: /lab/, fa: fa-cogs },
   } }
   客户端: { path: /client/, fa: fa-android faa-vertical }
-  RSS: { path: /atom.xml, fa: fa-rss faa-pulse }
-
+  RSS: { path: /atom.xml, fa: fa-rss faa-pulse } 
+  - {url: /theme-sakura/, title: Sakura, desc: 本站 hexo 主题, img: /img/startdash/sakura.md.png}
+  - {url: http://space.bilibili.com/271849279, title: Bilibili, desc: 博主的b站视频, img: /img/startdash/bilibili.jpg}
+  - {url: /, title: hojun的万事屋, desc: 技术服务, img: /img/startdash/wangshiwu.jpg}
 # Home page sort type: -1: newer first，1: older first. 【非】
 homePageSortType: -1
 
@@ -415,11 +417,7 @@ homeArticleShown: 10
 bgn: 8
 
 # startdash面板 url, title, desc img 【改】
-startdash: 
-  - {url: /theme-sakura/, title: Sakura, desc: 本站 hexo 主题, img: /img/startdash/sakura.md.png}
-  - {url: http://space.bilibili.com/271849279, title: Bilibili, desc: 博主的b站视频, img: /img/startdash/bilibili.jpg}
-  - {url: /, title: hojun的万事屋, desc: 技术服务, img: /img/startdash/wangshiwu.jpg}
-
+startdash:
 
 # your site build time or founded date
 # 你的站点建立日期 【改】
@@ -664,8 +662,8 @@ bot_ui_ini()
 ]]></content>
   </entry>
   <entry>
-    <title>donate</title>
-    <url>/donate/index.html</url>
+    <title>links</title>
+    <url>/links/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -673,11 +671,6 @@ bot_ui_ini()
     <url>/lab/index.html</url>
     <content><![CDATA[<h2 id="sakura主题"><a href="#sakura主题" class="headerlink" title="sakura主题"></a>sakura主题</h2><p>balabala</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>links</title>
-    <url>/links/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>music</title>
@@ -699,13 +692,13 @@ bot_ui_ini()
 ]]></content>
   </entry>
   <entry>
-    <title>rss</title>
-    <url>/rss/index.html</url>
+    <title>tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
+    <title>rss</title>
+    <url>/rss/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -801,5 +794,10 @@ bot_ui_ini()
   }
   </script>
 ]]></content>
+  </entry>
+  <entry>
+    <title>donate</title>
+    <url>/donate/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
