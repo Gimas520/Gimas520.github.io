@@ -4941,8 +4941,8 @@ i.iconfont.js-toggle-search.iconsearch {
     top:0;
     left:0;
     display:block;
-/*     overflow-x:hidden !important;
-    overflow-y:auto */
+    overflow-x:hidden !important;
+    overflow-y:auto
 }
 #mo-nav .m-avatar {
     position:relative;
@@ -4979,8 +4979,11 @@ i.iconfont.js-toggle-search.iconsearch {
     width:200px;
     height:auto;
     padding: 0px;
+    color: #000;
+    margin: 0;
+    padding: 20px;
 }
-#mo-nav ul:hover li {
+ #mo-nav ul:hover li {
     color:rgba(255,255,255,.5)
 }
 #mo-nav ul li {
@@ -4991,17 +4994,22 @@ i.iconfont.js-toggle-search.iconsearch {
     letter-spacing:.02em;
     text-align:left
 }
+#mo-nav ul li ul li{
+    padding-left: 20px;
+    padding-right: 0;
+}
 #mo-nav ul li a {
     color:#333;
     font-size:15px
 }
 #mo-nav li ul {
     width:250px;
-    margin:10px 0;
+    /* margin:10px 0; */
     padding-left:10px
 }
-#mo-nav li ul li {
-    padding:5px 9px
+#mo-nav li ul li.sub-menu {
+    padding:5px 9px;
+    
 }
 #mo-nav li ul li a {
     font-size:13px;
@@ -5010,7 +5018,7 @@ i.iconfont.js-toggle-search.iconsearch {
 #mo-nav ul li a:hover {
     cursor:pointer;
     color:orange
-}
+} 
 .we-content li {
     height:250px
 }
@@ -7842,19 +7850,9 @@ td.hljs-ln-numbers {
 }
 
 
-
-
-
-
-
-
-@media (max-width: 860px){
-    .frh{
-        position: relative;
-        width: 250px;
-        max-width: 250px;
-        height: 100vh;
-        overflow: hidden;
-        overflow-y: auto;
-    }
+@media(max-width:860px){
+    #mo-nav li ul.sub-menu{
+    max-width: 100px
 }
+}
+
