@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Category: 生活 | Hexo</title>
+  <title itemprop="name">kao学习 | Hexo</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -346,105 +346,243 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/banner/writing.jpg" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://yremp.live/wp-content/uploads/2020/03/ios.jpg);" src="https://s1.ax1x.com/2020/04/10/G78W7j.gif" data-src="https://yremp.live/wp-content/uploads/2020/03/ios.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      kao学习</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://github.com/Gimas520" target="_blank" rel="noopener">
+            <img src="https://s1.ax1x.com/2020/04/10/Go1m4K.gif">
+          </a>
+        </span>
+        <span>
+          <a href="http://github.com/Gimas520" target="_blank" rel="noopener"></a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-4-12<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">生活</h1>
-    <span class="cat-des">
-      <p>live</p>
-    </span>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2018/12/12/cdad/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>第一次弄hexo和Sakura主题不知道写些什么，那就来一篇我看过的文章吧</p>
+<h1 id="koa学习笔记"><a href="#koa学习笔记" class="headerlink" title="koa学习笔记"></a>koa学习笔记</h1><h2 id="1-判断客户端希望接受的数据类型（HTTP-Request-的Accept字段"><a href="#1-判断客户端希望接受的数据类型（HTTP-Request-的Accept字段" class="headerlink" title="1. 判断客户端希望接受的数据类型（HTTP Request 的Accept字段)"></a>1. 判断客户端希望接受的数据类型（HTTP Request 的Accept字段)</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = ctx =&gt; {
+  let arr = [
+    { type: &#39;xml&#39; ,data:&#39;&lt;data&gt;Hello World&lt;/data&gt;&#39;}, 
+    { type: &#39;json&#39; ,data:{ data: &#39;Hello World&#39; }}, 
+    { type: &#39;html&#39; ,data:&#39;&lt;p&gt;Hello World&lt;/p&gt;&#39;}, 
+    { type: &#39;text&#39; ,data:&#39;Hello World&#39;}
+  ];
+  for (const item of arr) {
+    if (ctx.request.accepts(item.type)) { // 判断类型
+      ctx.response.type = item.type;
+      ctx.response.body = item.data;
+      break;
+    }
+  }
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="2-读取本地文件"><a href="#2-读取本地文件" class="headerlink" title="2. 读取本地文件"></a>2. 读取本地文件</h2><pre><code>const fs = require(&#39;fs&#39;);
+const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = ctx =&gt; {
+  ctx.response.type = &#39;html&#39;;
+  ctx.response.body = fs.createReadStream(&#39;./demos/template.html&#39;); // 读取本地文件
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="3-获取用户请求路径"><a href="#3-获取用户请求路径" class="headerlink" title="3. 获取用户请求路径"></a>3. 获取用户请求路径</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = ctx =&gt; {
+  if (ctx.request.path !== &#39;/&#39;) {
+    ctx.response.type = &#39;html&#39;;
+    ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
+  } else {
+    ctx.response.body = &#39;Hello World&#39;;
+  }
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="4-koa-router"><a href="#4-koa-router" class="headerlink" title="4. koa-router"></a>4. koa-router</h2><pre><code>const route = require(&#39;koa-route&#39;);
+const about = ctx =&gt; {
+  ctx.response.type = &#39;html&#39;;
+  ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
+};
+const main = ctx =&gt; {
+  ctx.response.body = &#39;Hello World&#39;;
+};
+app.use(route.get(&#39;/&#39;, main));
+app.use(route.get(&#39;/about&#39;, about));</code></pre><h2 id="5-访问静态资源"><a href="#5-访问静态资源" class="headerlink" title="5.  访问静态资源"></a>5.  访问静态资源</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const path = require(&#39;path&#39;);
+const serve = require(&#39;koa-static&#39;);
+const main = serve(path.join(__dirname)); // __dirname 下的静态文件即可访问
+app.use(main);
+app.listen(3000);</code></pre><h2 id="6-重定向"><a href="#6-重定向" class="headerlink" title="6.  重定向"></a>6.  重定向</h2><pre><code>// 将 /redirect 重定向到 /
+const redirect = ctx =&gt; {
+  ctx.response.redirect(&#39;/&#39;); 
+  ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
+};
+app.use(route.get(&#39;/redirect&#39;, redirect));</code></pre><h2 id="7-中间件方式"><a href="#7-中间件方式" class="headerlink" title="7.  中间件方式"></a>7.  中间件方式</h2><h3 id="方式-1"><a href="#方式-1" class="headerlink" title="方式 1"></a>方式 1</h3><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+// 在main函数中实现 日志中间件
+const main = ctx =&gt; {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  ctx.response.body = &#39;Hello World&#39;;
+};
+app.use(main);
+app.listen(3000);</code></pre><h3 id="方式-2"><a href="#方式-2" class="headerlink" title="方式 2"></a>方式 2</h3><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const logger = (ctx, next) =&gt; {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  // 使用next让下一个中间件执行
+  next();
+}
+const main = ctx =&gt; {
+  ctx.response.body = &#39;Hello World&#39;;
+};
+// 使用use加载中间件
+app.use(logger);
+app.use(main);
+app.listen(3000);</code></pre><h2 id="8-中间件的next"><a href="#8-中间件的next" class="headerlink" title="8.  中间件的next"></a>8.  中间件的next</h2><pre><code> const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const one = (ctx, next) =&gt; {
+  console.log(&#39;&gt;&gt; one&#39;);
+  next();
+  console.log(&#39;&lt;&lt; one&#39;);
+}
+const two = (ctx, next) =&gt; {
+  console.log(&#39;&gt;&gt; two&#39;);
+  next();
+  console.log(&#39;&lt;&lt; two&#39;);
+}
+const three = (ctx, next) =&gt; {
+  console.log(&#39;&gt;&gt; three&#39;);
+  next();
+  console.log(&#39;&lt;&lt; three&#39;);
+}
+app.use(one);
+app.use(two);
+app.use(three)
+app.listen(3000);</code></pre><h2 id="9-中间件的next"><a href="#9-中间件的next" class="headerlink" title="9.  中间件的next"></a>9.  中间件的next</h2><pre><code>const fs = require(&#39;fs.promised&#39;);
+const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = async function (ctx, next) {
+  ctx.response.type = &#39;html&#39;;
+  ctx.response.body = await fs.readFile(&#39;./demos/template.html&#39;, &#39;utf8&#39;);
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="10-中间件合成"><a href="#10-中间件合成" class="headerlink" title="10.  中间件合成"></a>10.  中间件合成</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const compose = require(&#39;koa-compose&#39;);
+const app = new Koa();
+const logger = (ctx, next) =&gt; {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  next();
+}
+const main = ctx =&gt; {
+  ctx.response.body = &#39;Hello World&#39;;
+};
+// middlewares合成了各个中间件
+const middlewares = compose([logger, main]);
+app.use(middlewares);
+app.listen(3000);</code></pre>
         </div>
-        <img width="150" height="150" src="https://yremp.live/wp-content/uploads/2020/03/ios.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2018/12/12/cdad/">
-    Hexo-Theme-Sakura</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2018-12-12</div>
-    <p>
-    hexo-sakura主题使用教程</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2018/12/12/cdad/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://s1.ax1x.com/2020/04/10/GTVJgI.png"></li>
+                <li class="wechat-code"><img src="https://s1.ax1x.com/2020/04/10/GTE2Ae.png"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2018/12/12/Hexo-Theme-Sakura/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://s1.ax1x.com/2020/04/10/G78W7j.gif" data-src="https://yremp.live/wp-content/uploads/2020/03/cropped-BF757978-D6D5-43AB-85A3-9CE52E39C6F2ac945.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://yremp.live/wp-content/uploads/2020/03/cropped-BF757978-D6D5-43AB-85A3-9CE52E39C6F2ac945.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                Hexo-Theme-Sakura</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "LMYLjRxhtm3nNwvK8NN0CYI6-gzGzoHsz",
+        appKey: "q4e0DCIg3GkaKFdnuTOBonzW",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="http://github.com/Gimas520" target="_blank" rel="noopener" class="profile gravatar"><img src="https://s1.ax1x.com/2020/04/10/Go1m4K.gif" itemprop="image" alt="" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://github.com/Gimas520" target="_blank" itemprop="url" rel="author noopener"></a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i>一个好奇的人</p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
 
-<!-- 
-  
-    <article class="post post-list" itemscope="" itemtype="https://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2018/12/12/cdad/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://yremp.live/wp-content/uploads/2020/03/ios.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2018/12/12/cdad/">
-    Hexo-Theme-Sakura</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2018-12-12</div>
-    <p>
-    hexo-sakura主题使用教程</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2018/12/12/cdad/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
- -->
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
