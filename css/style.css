@@ -7856,3 +7856,7 @@ td.hljs-ln-numbers {
 }
 }
 
+pre.code-block-fullscreen{
+  height: 100vh;
+  max-height: 100vh;
+}

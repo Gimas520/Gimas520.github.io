@@ -1,137 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>kao学习</title>
-    <url>/2020/04/12/kao/</url>
-    <content><![CDATA[<p>第一次弄hexo和Sakura主题不知道写些什么，那就来一篇我看过的文章吧</p>
-<h1 id="koa学习笔记"><a href="#koa学习笔记" class="headerlink" title="koa学习笔记"></a>koa学习笔记</h1><h2 id="1-判断客户端希望接受的数据类型（HTTP-Request-的Accept字段"><a href="#1-判断客户端希望接受的数据类型（HTTP-Request-的Accept字段" class="headerlink" title="1. 判断客户端希望接受的数据类型（HTTP Request 的Accept字段)"></a>1. 判断客户端希望接受的数据类型（HTTP Request 的Accept字段)</h2><pre><code>const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const main = ctx =&gt; {
-  let arr = [
-    { type: &#39;xml&#39; ,data:&#39;&lt;data&gt;Hello World&lt;/data&gt;&#39;}, 
-    { type: &#39;json&#39; ,data:{ data: &#39;Hello World&#39; }}, 
-    { type: &#39;html&#39; ,data:&#39;&lt;p&gt;Hello World&lt;/p&gt;&#39;}, 
-    { type: &#39;text&#39; ,data:&#39;Hello World&#39;}
-  ];
-  for (const item of arr) {
-    if (ctx.request.accepts(item.type)) { // 判断类型
-      ctx.response.type = item.type;
-      ctx.response.body = item.data;
-      break;
-    }
-  }
-};
-app.use(main);
-app.listen(3000);</code></pre><h2 id="2-读取本地文件"><a href="#2-读取本地文件" class="headerlink" title="2. 读取本地文件"></a>2. 读取本地文件</h2><pre><code>const fs = require(&#39;fs&#39;);
-const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const main = ctx =&gt; {
-  ctx.response.type = &#39;html&#39;;
-  ctx.response.body = fs.createReadStream(&#39;./demos/template.html&#39;); // 读取本地文件
-};
-app.use(main);
-app.listen(3000);</code></pre><h2 id="3-获取用户请求路径"><a href="#3-获取用户请求路径" class="headerlink" title="3. 获取用户请求路径"></a>3. 获取用户请求路径</h2><pre><code>const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const main = ctx =&gt; {
-  if (ctx.request.path !== &#39;/&#39;) {
-    ctx.response.type = &#39;html&#39;;
-    ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
-  } else {
-    ctx.response.body = &#39;Hello World&#39;;
-  }
-};
-app.use(main);
-app.listen(3000);</code></pre><h2 id="4-koa-router"><a href="#4-koa-router" class="headerlink" title="4. koa-router"></a>4. koa-router</h2><pre><code>const route = require(&#39;koa-route&#39;);
-const about = ctx =&gt; {
-  ctx.response.type = &#39;html&#39;;
-  ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
-};
-const main = ctx =&gt; {
-  ctx.response.body = &#39;Hello World&#39;;
-};
-app.use(route.get(&#39;/&#39;, main));
-app.use(route.get(&#39;/about&#39;, about));</code></pre><h2 id="5-访问静态资源"><a href="#5-访问静态资源" class="headerlink" title="5.  访问静态资源"></a>5.  访问静态资源</h2><pre><code>const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const path = require(&#39;path&#39;);
-const serve = require(&#39;koa-static&#39;);
-const main = serve(path.join(__dirname)); // __dirname 下的静态文件即可访问
-app.use(main);
-app.listen(3000);</code></pre><h2 id="6-重定向"><a href="#6-重定向" class="headerlink" title="6.  重定向"></a>6.  重定向</h2><pre><code>// 将 /redirect 重定向到 /
-const redirect = ctx =&gt; {
-  ctx.response.redirect(&#39;/&#39;); 
-  ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
-};
-app.use(route.get(&#39;/redirect&#39;, redirect));</code></pre><h2 id="7-中间件方式"><a href="#7-中间件方式" class="headerlink" title="7.  中间件方式"></a>7.  中间件方式</h2><h3 id="方式-1"><a href="#方式-1" class="headerlink" title="方式 1"></a>方式 1</h3><pre><code>const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-// 在main函数中实现 日志中间件
-const main = ctx =&gt; {
-  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
-  ctx.response.body = &#39;Hello World&#39;;
-};
-app.use(main);
-app.listen(3000);</code></pre><h3 id="方式-2"><a href="#方式-2" class="headerlink" title="方式 2"></a>方式 2</h3><pre><code>const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const logger = (ctx, next) =&gt; {
-  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
-  // 使用next让下一个中间件执行
-  next();
-}
-const main = ctx =&gt; {
-  ctx.response.body = &#39;Hello World&#39;;
-};
-// 使用use加载中间件
-app.use(logger);
-app.use(main);
-app.listen(3000);</code></pre><h2 id="8-中间件的next"><a href="#8-中间件的next" class="headerlink" title="8.  中间件的next"></a>8.  中间件的next</h2><pre><code> const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const one = (ctx, next) =&gt; {
-  console.log(&#39;&gt;&gt; one&#39;);
-  next();
-  console.log(&#39;&lt;&lt; one&#39;);
-}
-const two = (ctx, next) =&gt; {
-  console.log(&#39;&gt;&gt; two&#39;);
-  next();
-  console.log(&#39;&lt;&lt; two&#39;);
-}
-const three = (ctx, next) =&gt; {
-  console.log(&#39;&gt;&gt; three&#39;);
-  next();
-  console.log(&#39;&lt;&lt; three&#39;);
-}
-app.use(one);
-app.use(two);
-app.use(three)
-app.listen(3000);</code></pre><h2 id="9-中间件的next"><a href="#9-中间件的next" class="headerlink" title="9.  中间件的next"></a>9.  中间件的next</h2><pre><code>const fs = require(&#39;fs.promised&#39;);
-const Koa = require(&#39;koa&#39;);
-const app = new Koa();
-const main = async function (ctx, next) {
-  ctx.response.type = &#39;html&#39;;
-  ctx.response.body = await fs.readFile(&#39;./demos/template.html&#39;, &#39;utf8&#39;);
-};
-app.use(main);
-app.listen(3000);</code></pre><h2 id="10-中间件合成"><a href="#10-中间件合成" class="headerlink" title="10.  中间件合成"></a>10.  中间件合成</h2><pre><code>const Koa = require(&#39;koa&#39;);
-const compose = require(&#39;koa-compose&#39;);
-const app = new Koa();
-const logger = (ctx, next) =&gt; {
-  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
-  next();
-}
-const main = ctx =&gt; {
-  ctx.response.body = &#39;Hello World&#39;;
-};
-// middlewares合成了各个中间件
-const middlewares = compose([logger, main]);
-app.use(middlewares);
-app.listen(3000);</code></pre>]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>web</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo-Theme-Sakura</title>
     <url>/2018/12/12/Hexo-Theme-Sakura/</url>
     <content><![CDATA[<p>hexo-theme-sakura主题 <a href="https://github.com/honjun/hexo-theme-sakura/blob/master/README.md" target="_blank" rel="noopener">English document</a></p>
@@ -431,6 +300,137 @@ links:
       </tags>
   </entry>
   <entry>
+    <title>kao学习</title>
+    <url>/2020/04/12/kao/</url>
+    <content><![CDATA[<p>第一次弄hexo和Sakura主题不知道写些什么，那就来一篇我看过的文章吧</p>
+<h1 id="koa学习笔记"><a href="#koa学习笔记" class="headerlink" title="koa学习笔记"></a>koa学习笔记</h1><h2 id="1-判断客户端希望接受的数据类型（HTTP-Request-的Accept字段"><a href="#1-判断客户端希望接受的数据类型（HTTP-Request-的Accept字段" class="headerlink" title="1. 判断客户端希望接受的数据类型（HTTP Request 的Accept字段)"></a>1. 判断客户端希望接受的数据类型（HTTP Request 的Accept字段)</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = ctx =&gt; {
+  let arr = [
+    { type: &#39;xml&#39; ,data:&#39;&lt;data&gt;Hello World&lt;/data&gt;&#39;}, 
+    { type: &#39;json&#39; ,data:{ data: &#39;Hello World&#39; }}, 
+    { type: &#39;html&#39; ,data:&#39;&lt;p&gt;Hello World&lt;/p&gt;&#39;}, 
+    { type: &#39;text&#39; ,data:&#39;Hello World&#39;}
+  ];
+  for (const item of arr) {
+    if (ctx.request.accepts(item.type)) { // 判断类型
+      ctx.response.type = item.type;
+      ctx.response.body = item.data;
+      break;
+    }
+  }
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="2-读取本地文件"><a href="#2-读取本地文件" class="headerlink" title="2. 读取本地文件"></a>2. 读取本地文件</h2><pre><code>const fs = require(&#39;fs&#39;);
+const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = ctx =&gt; {
+  ctx.response.type = &#39;html&#39;;
+  ctx.response.body = fs.createReadStream(&#39;./demos/template.html&#39;); // 读取本地文件
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="3-获取用户请求路径"><a href="#3-获取用户请求路径" class="headerlink" title="3. 获取用户请求路径"></a>3. 获取用户请求路径</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = ctx =&gt; {
+  if (ctx.request.path !== &#39;/&#39;) {
+    ctx.response.type = &#39;html&#39;;
+    ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
+  } else {
+    ctx.response.body = &#39;Hello World&#39;;
+  }
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="4-koa-router"><a href="#4-koa-router" class="headerlink" title="4. koa-router"></a>4. koa-router</h2><pre><code>const route = require(&#39;koa-route&#39;);
+const about = ctx =&gt; {
+  ctx.response.type = &#39;html&#39;;
+  ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
+};
+const main = ctx =&gt; {
+  ctx.response.body = &#39;Hello World&#39;;
+};
+app.use(route.get(&#39;/&#39;, main));
+app.use(route.get(&#39;/about&#39;, about));</code></pre><h2 id="5-访问静态资源"><a href="#5-访问静态资源" class="headerlink" title="5.  访问静态资源"></a>5.  访问静态资源</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const path = require(&#39;path&#39;);
+const serve = require(&#39;koa-static&#39;);
+const main = serve(path.join(__dirname)); // __dirname 下的静态文件即可访问
+app.use(main);
+app.listen(3000);</code></pre><h2 id="6-重定向"><a href="#6-重定向" class="headerlink" title="6.  重定向"></a>6.  重定向</h2><pre><code>// 将 /redirect 重定向到 /
+const redirect = ctx =&gt; {
+  ctx.response.redirect(&#39;/&#39;); 
+  ctx.response.body = &#39;&lt;a href=&quot;/&quot;&gt;Index Page&lt;/a&gt;&#39;;
+};
+app.use(route.get(&#39;/redirect&#39;, redirect));</code></pre><h2 id="7-中间件方式"><a href="#7-中间件方式" class="headerlink" title="7.  中间件方式"></a>7.  中间件方式</h2><h3 id="方式-1"><a href="#方式-1" class="headerlink" title="方式 1"></a>方式 1</h3><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+// 在main函数中实现 日志中间件
+const main = ctx =&gt; {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  ctx.response.body = &#39;Hello World&#39;;
+};
+app.use(main);
+app.listen(3000);</code></pre><h3 id="方式-2"><a href="#方式-2" class="headerlink" title="方式 2"></a>方式 2</h3><pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const logger = (ctx, next) =&gt; {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  // 使用next让下一个中间件执行
+  next();
+}
+const main = ctx =&gt; {
+  ctx.response.body = &#39;Hello World&#39;;
+};
+// 使用use加载中间件
+app.use(logger);
+app.use(main);
+app.listen(3000);</code></pre><h2 id="8-中间件的next"><a href="#8-中间件的next" class="headerlink" title="8.  中间件的next"></a>8.  中间件的next</h2><pre><code> const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const one = (ctx, next) =&gt; {
+  console.log(&#39;&gt;&gt; one&#39;);
+  next();
+  console.log(&#39;&lt;&lt; one&#39;);
+}
+const two = (ctx, next) =&gt; {
+  console.log(&#39;&gt;&gt; two&#39;);
+  next();
+  console.log(&#39;&lt;&lt; two&#39;);
+}
+const three = (ctx, next) =&gt; {
+  console.log(&#39;&gt;&gt; three&#39;);
+  next();
+  console.log(&#39;&lt;&lt; three&#39;);
+}
+app.use(one);
+app.use(two);
+app.use(three)
+app.listen(3000);</code></pre><h2 id="9-中间件的next"><a href="#9-中间件的next" class="headerlink" title="9.  中间件的next"></a>9.  中间件的next</h2><pre><code>const fs = require(&#39;fs.promised&#39;);
+const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const main = async function (ctx, next) {
+  ctx.response.type = &#39;html&#39;;
+  ctx.response.body = await fs.readFile(&#39;./demos/template.html&#39;, &#39;utf8&#39;);
+};
+app.use(main);
+app.listen(3000);</code></pre><h2 id="10-中间件合成"><a href="#10-中间件合成" class="headerlink" title="10.  中间件合成"></a>10.  中间件合成</h2><pre><code>const Koa = require(&#39;koa&#39;);
+const compose = require(&#39;koa-compose&#39;);
+const app = new Koa();
+const logger = (ctx, next) =&gt; {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  next();
+}
+const main = ctx =&gt; {
+  ctx.response.body = &#39;Hello World&#39;;
+};
+// middlewares合成了各个中间件
+const middlewares = compose([logger, main]);
+app.use(middlewares);
+app.listen(3000);</code></pre>]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>web</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[
@@ -504,15 +504,15 @@ bot_ui_ini()
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>links</title>
-    <url>/links/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>lab</title>
     <url>/lab/index.html</url>
     <content><![CDATA[<h2 id="sakura主题"><a href="#sakura主题" class="headerlink" title="sakura主题"></a>sakura主题</h2><p>balabala</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>links</title>
+    <url>/links/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>music</title>
@@ -542,12 +542,6 @@ bot_ui_ini()
     <title>tags</title>
     <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>theme-sakura</title>
-    <url>/theme-sakura/index.html</url>
-    <content><![CDATA[<p>Hexo主题Sakura修改自WordPress主题<a href="https://github.com/mashirozx/Sakura/" target="_blank" rel="noopener">Sakura</a>，感谢原作者<a href="https://2heng.xin/" target="_blank" rel="noopener">Mashiro</a></p>
-]]></content>
   </entry>
   <entry>
     <title>video</title>
@@ -635,6 +629,12 @@ bot_ui_ini()
     })
   }
   </script>
+]]></content>
+  </entry>
+  <entry>
+    <title>theme-sakura</title>
+    <url>/theme-sakura/index.html</url>
+    <content><![CDATA[<p>Hexo主题Sakura修改自WordPress主题<a href="https://github.com/mashirozx/Sakura/" target="_blank" rel="noopener">Sakura</a>，感谢原作者<a href="https://2heng.xin/" target="_blank" rel="noopener">Mashiro</a></p>
 ]]></content>
   </entry>
 </search>
