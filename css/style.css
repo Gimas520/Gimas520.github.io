@@ -4941,8 +4941,8 @@ i.iconfont.js-toggle-search.iconsearch {
     top:0;
     left:0;
     display:block;
-    overflow-x:hidden !important;
-    overflow-y:auto
+/*     overflow-x:hidden !important;
+    overflow-y:auto */
 }
 #mo-nav .m-avatar {
     position:relative;
@@ -7839,4 +7839,20 @@ td.hljs-ln-numbers {
 .hljs-ln-code .hljs-ln-line {
     margin-left: 25px;
     padding-left: 5px;
+}
+
+
+
+
+
+
+
+
+@media (max-width: 860px){
+    .frh{
+        position: relative;
+        width: 250px;
+        max-width: 250px;
+        height: 100vh;
+    }
 }
