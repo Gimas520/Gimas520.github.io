@@ -7854,5 +7854,7 @@ td.hljs-ln-numbers {
         width: 250px;
         max-width: 250px;
         height: 100vh;
+        overflow: hidden;
+        overflow-y: auto;
     }
 }
