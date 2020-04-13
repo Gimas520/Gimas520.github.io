@@ -505,8 +505,8 @@ bot_ui_ini()
 ]]></content>
   </entry>
   <entry>
-    <title>links</title>
-    <url>/links/index.html</url>
+    <title>bangumi</title>
+    <url>/bangumi/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -529,11 +529,6 @@ bot_ui_ini()
 ]]></content>
   </entry>
   <entry>
-    <title>rss</title>
-    <url>/rss/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>tags</title>
     <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
@@ -543,6 +538,16 @@ bot_ui_ini()
     <url>/theme-sakura/index.html</url>
     <content><![CDATA[<p>Hexo主题Sakura修改自WordPress主题<a href="https://github.com/mashirozx/Sakura/" target="_blank" rel="noopener">Sakura</a>，感谢原作者<a href="https://2heng.xin/" target="_blank" rel="noopener">Mashiro</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>rss</title>
+    <url>/rss/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>links</title>
+    <url>/links/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>video</title>
@@ -631,10 +636,5 @@ bot_ui_ini()
   }
   </script>
 ]]></content>
-  </entry>
-  <entry>
-    <title>bangumi</title>
-    <url>/bangumi/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
