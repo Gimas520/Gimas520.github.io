@@ -120,4 +120,4 @@ backup:
   theme: Sakura
   message: Back up my www.itrhx.com blog
   repository:
-    github: git@github.com:Gimas520/Gimas520.github.io.git,backup
+    github: https://github.com/Gimas520/Gimas520.github.io.git,backup
